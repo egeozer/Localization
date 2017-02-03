@@ -46,8 +46,7 @@ public class Lab4 {
 		Odometer odo = new Odometer(leftMotor, rightMotor, 30, true);
 		Navigation navi = new Navigation(odo);
 		final TextLCD t = LocalEV3.get().getTextLCD();
-		LCDInfo lcd = new LCDInfo(odo);
-		
+				
 		// start interface
 		int buttonChoice;
 		do {
@@ -64,8 +63,9 @@ public class Lab4 {
 			buttonChoice = Button.waitForAnyPress();
 		} while (buttonChoice != Button.ID_LEFT
 				&& buttonChoice != Button.ID_RIGHT);
-		
-		
+				
+		//initalize display
+		LCDInfo lcd = new LCDInfo(odo);
 		
 		if (buttonChoice == Button.ID_LEFT) {
 			// perform the ultrasonic localization
