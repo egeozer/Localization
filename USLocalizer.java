@@ -26,7 +26,7 @@ public class USLocalizer {
 	public void doLocalization() {
 		double [] pos = new double [3];
 		double angleA, angleB, deltaAngle, heading;
-		angleB=0;
+	
 		
 		//get access to motors
 		EV3LargeRegulatedMotor[] motors = this.odo.getMotors();
@@ -35,8 +35,9 @@ public class USLocalizer {
 		
 		if (locType == LocalizationType.FALLING_EDGE) {
 			// rotate the robot until it sees no wall
+			System.out.println( getFilteredData());
 			if (getFilteredData() <= 30) 
-			turnTo(360);
+			turnTo(180);
 			
 			
 			// keep rotating until the robot sees a wall, then latch the angle
@@ -89,6 +90,7 @@ public class USLocalizer {
 			
 			
 		} else {
+			System.out.println( getFilteredData());
 			/*
 			 * The robot should turn until it sees the wall, then look for the
 			 * "rising edges:" the points where it no longer sees the wall.
@@ -155,7 +157,7 @@ public class USLocalizer {
 			
 					
 			// update the odometer position (example to follow:)
-			odo.setPosition(new double [] {0.0, 0.0, heading}, new boolean [] {true, true, true});
+			odo.setPosition(new double [] {0.0, 0.0, heading+angleA}, new boolean [] {true, true, true});
 						
 		}
 	}
@@ -163,8 +165,8 @@ public class USLocalizer {
 	private float getFilteredData() {		// filters out distances over 120cm and erroneous readings
 		usSensor.fetchSample(usData, 0);
 		float distance =100* usData[0];
-		if(distance > 120)
-			distance = 120;
+		//if(distance > 120)
+			//distance = 120;
 				
 		return distance;
 	}

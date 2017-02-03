@@ -67,7 +67,7 @@ public class Lab4 {
 		//initalize display
 		LCDInfo lcd = new LCDInfo(odo);
 		
-		if (buttonChoice == Button.ID_LEFT) {
+		if (buttonChoice == Button.ID_RIGHT) {
 			// perform the ultrasonic localization
 			USLocalizer usl = new USLocalizer(odo, navi, usValue, usData, USLocalizer.LocalizationType.FALLING_EDGE); 	// locType is either RISING
 			usl.doLocalization();																						// or FALLING
