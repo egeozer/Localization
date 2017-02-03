@@ -176,13 +176,13 @@ public class USLocalizer {
 		
 
 		leftMotor.rotate(convertAngle(odo.getLeftRadius(), odo.getWidth(), theta), true);
-		rightMotor.rotate(-convertAngle(odo.getLeftRadius(), odo.getWidth(), theta), false);
-		while(true){
-			if(!leftMotor.isMoving()&& !rightMotor.isMoving()){
-				break;
-			}
+		rightMotor.rotate(-convertAngle(odo.getLeftRadius(), odo.getWidth(), theta), true);
+		//while(true){
+			//if(!leftMotor.isMoving()&& !rightMotor.isMoving()){
+				//break;
+		//	}
 			
-		}
+		//}
 		//leftMotor.endSynchronization();
 	}
 	//from lab2
