@@ -93,9 +93,57 @@ public class USLocalizer {
 			 * will face toward the wall for most of it.
 			 */
 			
-			//
-			// FILL THIS IN
-			//
+			// rotate the robot until it sees the wall
+			leftMotor.forward();
+			rightMotor.backward();
+		
+			while(true){
+				if(getFilteredData() <= 30.0){
+					break;
+				}
+			}
+			
+			// keep rotating until the robot sees no wall, then latch the angle
+			while(true){
+				if(getFilteredData() > 30.0){
+					angleA = odo.getAng();
+					leftMotor.stop();
+					rightMotor.stop();
+					break;
+				}
+			}
+			
+			// switch direction and wait until it sees the wall
+			leftMotor.backward();
+			rightMotor.forward();
+		
+			while(true){
+				if(getFilteredData() <= 30.0){
+					break;
+				}
+			}
+			
+			// keep rotating until the robot sees no wall, then latch the angle
+			while(true){
+				if(getFilteredData() > 30.0){
+					angleB = odo.getAng();
+					leftMotor.stop();
+					rightMotor.stop();
+					break;
+				}
+			}
+
+			// angleA is clockwise from angleB, so assume the average of the
+			// angles to the right of angleB is 45 degrees past 'north'
+			deltaAngle = 45 - (angleA+angleB)/2;
+			heading = odo.getAng() + deltaAngle;
+			
+			// possible code to calculate x,y from heading and view distance
+			
+					
+			// update the odometer position (example to follow:)
+			odo.setPosition(new double [] {0.0, 0.0, heading}, new boolean [] {true, true, true});
+						
 		}
 	}
 	
