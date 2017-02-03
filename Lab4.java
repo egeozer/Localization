@@ -2,6 +2,7 @@ package Localization;
 
 import lejos.hardware.*;
 import lejos.hardware.ev3.LocalEV3;
+import lejos.hardware.lcd.TextLCD;
 import lejos.hardware.motor.EV3LargeRegulatedMotor;
 import lejos.hardware.port.Port;
 import lejos.hardware.sensor.*;
@@ -43,19 +44,40 @@ public class Lab4 {
 				
 		// setup the odometer and display
 		Odometer odo = new Odometer(leftMotor, rightMotor, 30, true);
+		Navigation navi = new Navigation(odo);
 		LCDInfo lcd = new LCDInfo(odo);
+		final TextLCD t = LocalEV3.get().getTextLCD();
 		
-		// perform the ultrasonic localization
-		USLocalizer usl = new USLocalizer(odo, usValue, usData, USLocalizer.LocalizationType.FALLING_EDGE);
-		usl.doLocalization();
+		// start interface
+		int buttonChoice;
+		do {
+			// clear the display
+			t.clear();
+
+			// tell the user to press a button to start the program
+			t.drawString("<  Left  |  Right >", 0, 0);
+			t.drawString("         |         ", 0, 1);
+			t.drawString("  Light  |   US    ", 0, 2);
+			t.drawString("Localizer|Localizer", 0, 3);
+			t.drawString("         |         ", 0, 4);
+
+			buttonChoice = Button.waitForAnyPress();
+		} while (buttonChoice != Button.ID_LEFT
+				&& buttonChoice != Button.ID_RIGHT);
 		
-		// perform the light sensor localization
-		LightLocalizer lsl = new LightLocalizer(odo, colorValue, colorData);
-		lsl.doLocalization();			
-		
-		while (Button.waitForAnyPress() != Button.ID_ESCAPE);
-		System.exit(0);	
-		
+		if (buttonChoice == Button.ID_LEFT) {
+			// perform the ultrasonic localization
+			USLocalizer usl = new USLocalizer(odo, navi, usValue, usData, USLocalizer.LocalizationType.FALLING_EDGE); 	// locType is either RISING
+			usl.doLocalization();																						// or FALLING
+							
+		} else { 
+			// perform the light sensor localization
+				LightLocalizer lsl = new LightLocalizer(odo, colorValue, colorData);
+				lsl.doLocalization();
+			}
+												
+			while (Button.waitForAnyPress() != Button.ID_ESCAPE);
+			System.exit(0);		
 	}
 
 }
