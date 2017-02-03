@@ -45,8 +45,8 @@ public class Lab4 {
 		// setup the odometer and display
 		Odometer odo = new Odometer(leftMotor, rightMotor, 30, true);
 		Navigation navi = new Navigation(odo);
+		TextLCD t = LocalEV3.get().getTextLCD();
 		LCDInfo lcd = new LCDInfo(odo);
-		final TextLCD t = LocalEV3.get().getTextLCD();
 		
 		// start interface
 		int buttonChoice;
