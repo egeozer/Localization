@@ -69,7 +69,7 @@ public class Lab4 {
 		
 		if (buttonChoice == Button.ID_RIGHT) {
 			// perform the ultrasonic localization
-			USLocalizer usl = new USLocalizer(odo, navi, usValue, usData, USLocalizer.LocalizationType.FALLING_EDGE); 	// locType is either RISING
+			USLocalizer usl = new USLocalizer(odo, navi, usValue, usData, USLocalizer.LocalizationType.RISING_EDGE); 	// locType is either RISING
 			usl.doLocalization();																						// or FALLING
 							
 		} else { 
