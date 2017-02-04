@@ -1,5 +1,6 @@
 package Localization;
 
+import lejos.hardware.Sound;
 import lejos.hardware.motor.EV3LargeRegulatedMotor;
 import lejos.robotics.SampleProvider;
 
@@ -20,77 +21,55 @@ public class LightLocalizer {
 		this.navi = navi;
 		this.colorSensor = colorSensor;
 		this.colorData = colorData;
+		Sound.setVolume(50);
+
+		
 	}
 	
 	public void doLocalization(Odometer odo, Navigation navi, SampleProvider colorSensor, float[] colorData) {
 		this.odo = odo;
+		this.navi = navi;
 		this.colorSensor = colorSensor;
 		this.colorData = colorData;
 		EV3LargeRegulatedMotor[] motors = this.odo.getMotors();
 		this.leftMotor = motors[0];
 		this.rightMotor = motors[1];
+		double pointA;
+		double pointB;
 		
-		// drive to location listed in tutorial
-		while( colorData[0] > 0.3){
-		//	if(colorData[0] > 0.3){
-				
-			//}
-			leftMotor.setSpeed(150);
-			rightMotor.setSpeed(150);
-			leftMotor.forward();
-			rightMotor.forward();
-		}
-<<<<<<< HEAD
-		
-		navi.goForward(2);
-=======
-		navi.goForward(2.0);
->>>>>>> origin/master
-		leftMotor.stop();
-		rightMotor.stop();
-		
-		// start rotating and clock all 4 gridlines
-		leftMotor.forward();
-		rightMotor.backward();
-		
-		double angles[] = {0,0,0,0};		//angles{ x+, y-, x-, y+}
-				
-		while(axisCounter < 5){
-			if(colorData[0] > 0.3){
-				angles[axisCounter] = odo.getAng();
-				axisCounter++;
-			}
-		}
-		
-		leftMotor.stop();
-		rightMotor.stop();
-				
-		// do trig to compute (0,0) and 0 degrees
-		xTheta = angles[2] - angles[0];
-		yTheta = angles[3] - angles[1];
-		
-		x = -lightSensorDist * Math.cos(yTheta/2);
-		y = -lightSensorDist * Math.cos(xTheta/2);
-		heading = heading + (90 - angles[1] + 180 + yTheta/2);
-		
-		// when done travel to (0,0) and turn to 0 degrees
-		odo.setPosition(new double [] {x, y, heading}, new boolean [] {true, true, true});
-		navi.travelTo(0,0);
-		navi.turnTo(0, true);		
-		
-<<<<<<< HEAD
-		eucDistance = Math.sqrt( (Math.pow(x, 2) + Math.pow(y,2)) );
-		heading = yTheta/2;  //see slide 27
-		
-		
-		navi.goForward(eucDistance);
-		
-=======
-		//heading = yTheta/2;  //see slide 27
-		//eucDistance = Math.sqrt( (Math.pow(x, 2) + Math.pow(y,2)) );
-				
-		//navi.goForward(eucDistance);
->>>>>>> origin/master
-	}
+		leftMotor.setSpeed(100);
 
+		rightMotor.setSpeed(100);
+		
+		leftMotor.forward();
+		rightMotor.forward();
+		
+		while(true){
+			
+			//sampleProvider=sensor.getRedMode();
+			colorSensor.fetchSample(colorData, 0);
+			if(colorData[0]<0.3){
+				Sound.beep();
+				System.out.println("beeep");
+				leftMotor.stop();
+				rightMotor.stop();
+				pointA = odo.getY();
+				navi.turnTo(90,true);
+				
+				
+				
+				
+			}
+			
+		
+		}
+		
+	
+	}
+		
 }
+		
+		
+	
+
+
