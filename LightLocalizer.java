@@ -37,7 +37,7 @@ public class LightLocalizer {
 			leftMotor.forward();
 			rightMotor.forward();
 		}
-		navi.goForward(2);
+		navi.goForward(2.0);
 		leftMotor.stop();
 		rightMotor.stop();
 		
@@ -63,12 +63,12 @@ public class LightLocalizer {
 		
 		x = -lightSensorDist * Math.cos(yTheta/2);
 		y = -lightSensorDist * Math.cos(xTheta/2);
-		heading = heading + (90 - angles[1] + angles[3]/2 +180 );
+		heading = heading + (90 - angles[1] + 180 + yTheta/2);
 		
 		// when done travel to (0,0) and turn to 0 degrees
-		odo.setPosition(new double [] {x, y, 0.0}, new boolean [] {true, true, false});
+		odo.setPosition(new double [] {x, y, heading}, new boolean [] {true, true, true});
 		navi.travelTo(0,0);
-		navi.turnTo(0, false);		
+		navi.turnTo(0, true);		
 		
 		//heading = yTheta/2;  //see slide 27
 		//eucDistance = Math.sqrt( (Math.pow(x, 2) + Math.pow(y,2)) );
