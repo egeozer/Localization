@@ -32,11 +32,15 @@ public class LightLocalizer {
 		
 		// drive to location listed in tutorial
 		while( colorData[0] > 0.3){
+		//	if(colorData[0] > 0.3){
+				
+			//}
 			leftMotor.setSpeed(150);
 			rightMotor.setSpeed(150);
 			leftMotor.forward();
 			rightMotor.forward();
 		}
+		
 		navi.goForward(2);
 		leftMotor.stop();
 		rightMotor.stop();
@@ -71,6 +75,7 @@ public class LightLocalizer {
 		
 		
 		navi.goForward(eucDistance);
+		
 	}
 
 }

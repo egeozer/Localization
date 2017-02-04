@@ -71,12 +71,29 @@ public class Lab4 {
 			// perform the ultrasonic localization
 			USLocalizer usl = new USLocalizer(odo, navi, usValue, usData, USLocalizer.LocalizationType.RISING_EDGE); 	// locType is either RISING
 			usl.doLocalization();																						// or FALLING
-							
+			while(true){
+				buttonChoice = Button.waitForAnyPress();
+				if (buttonChoice == Button.ID_UP) {
+				
+					LightLocalizer lsl = new LightLocalizer(odo, navi, colorValue, colorData);		
+					lsl.doLocalization(odo, navi, colorValue, colorData);
+					break;
+				}
+				}
 		} else { 
 			// perform the light sensor localization
-			LightLocalizer lsl = new LightLocalizer(odo, navi, colorValue, colorData);
-			lsl.doLocalization(odo, navi, colorValue, colorData);
+			USLocalizer usl = new USLocalizer(odo, navi, usValue, usData, USLocalizer.LocalizationType.FALLING_EDGE); 	// locType is either RISING
+			usl.doLocalization();
+			while(true){
+				buttonChoice = Button.waitForAnyPress();
+			if (buttonChoice == Button.ID_UP) {
+			
+				LightLocalizer lsl = new LightLocalizer(odo, navi, colorValue, colorData);		
+				lsl.doLocalization(odo, navi, colorValue, colorData);
+				break;
 			}
+			}
+		}
 												
 			while (Button.waitForAnyPress() != Button.ID_ESCAPE);
 			System.exit(0);		
