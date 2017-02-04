@@ -38,8 +38,8 @@ public class Lab4 {
 		// 2. Create a sensor instance and attach to port
 		// 3. Create a sample provider instance for the above and initialize operating mode
 		// 4. Create a buffer for the sensor data
+		@SuppressWarnings("resource")
 		SensorModes colorSensor = new EV3ColorSensor(colorPort);
-		
 		SampleProvider colorValue = colorSensor.getMode("Red");			// colorValue provides samples from this instance
 		float[] colorData = new float[colorValue.sampleSize()];			// colorData is the buffer in which data are returned
 				
@@ -57,46 +57,39 @@ public class Lab4 {
 			// tell the user to press a button to start the program
 			t.drawString("<  Left  |  Right >", 0, 0);
 			t.drawString("         |         ", 0, 1);
-			t.drawString("  Light  |   US    ", 0, 2);
-			t.drawString("Localizer|Localizer", 0, 3);
+			t.drawString("  Rising | Falling ", 0, 2);
+			t.drawString("   Edge  |  Edge   ", 0, 3);
 			t.drawString("         |         ", 0, 4);
 
 			buttonChoice = Button.waitForAnyPress();
-		} while (buttonChoice != Button.ID_LEFT
-				&& buttonChoice != Button.ID_RIGHT);
+		} while (buttonChoice != Button.ID_LEFT && buttonChoice != Button.ID_RIGHT);
 				
-		//initalize display
+		//initialize display
 		LCDInfo lcd = new LCDInfo(odo);
-		
-		if (buttonChoice == Button.ID_RIGHT) {
-			// perform the ultrasonic localization
-			USLocalizer usl = new USLocalizer(odo, navi, usValue, usData, USLocalizer.LocalizationType.RISING_EDGE); 	// locType is either RISING
-			usl.doLocalization();																						// or FALLING
-			while(true){
-				buttonChoice = Button.waitForAnyPress();
-				if (buttonChoice == Button.ID_UP) {
-					System.out.println("hey");
-					LightLocalizer lsl = new LightLocalizer(odo, navi, colorValue, colorData);		
-					lsl.doLocalization(odo, navi, colorValue, colorData);
-					break;
-				}
-				}
+				
+		if (buttonChoice == Button.ID_LEFT) {
+			// perform the ultrasonic localization using Rising Edge
+			USLocalizer usl = new USLocalizer(odo, navi, usValue, usData, USLocalizer.LocalizationType.RISING_EDGE);
+			usl.doLocalization();																						
+			
 		} else { 
-			// perform the light sensor localization
-			USLocalizer usl = new USLocalizer(odo, navi, usValue, usData, USLocalizer.LocalizationType.FALLING_EDGE); 	// locType is either RISING
+			// perform the ultrasonic localization using Falling Edge
+			USLocalizer usl = new USLocalizer(odo, navi, usValue, usData, USLocalizer.LocalizationType.FALLING_EDGE);
 			usl.doLocalization();
-			while(true){
-				buttonChoice = Button.waitForAnyPress();
+			
+		}
+		
+		// perform the light sensor localization upon pressing the up arrow
+		while(true){
+			buttonChoice = Button.waitForAnyPress();
 			if (buttonChoice == Button.ID_UP) {
-			System.out.println("hey");
 				LightLocalizer lsl = new LightLocalizer(odo, navi, colorValue, colorData);		
 				lsl.doLocalization(odo, navi, colorValue, colorData);
 				break;
 			}
-			}
 		}
 												
-			while (Button.waitForAnyPress() != Button.ID_ESCAPE);
+		while (Button.waitForAnyPress() != Button.ID_ESCAPE);
 			System.exit(0);		
 	}
 }

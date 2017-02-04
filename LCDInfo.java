@@ -18,7 +18,7 @@ public class LCDInfo implements TimerListener{
 		this.odo = odo;
 		this.lcdTimer = new Timer(LCD_REFRESH, this);
 		
-		// initialise the arrays for displaying data
+		// initialize the arrays for displaying data
 		pos = new double [3];
 		
 		// start the timer
