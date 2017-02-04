@@ -112,6 +112,13 @@ public class Navigation {
 			this.setSpeeds(0, 0);
 		}
 	}
+	public void turnImm(double angle) {
+		
+
+		leftMotor.rotate(convertAngle(odometer.getLeftRadius(), odometer.getWidth(), angle), true);
+		rightMotor.rotate(-convertAngle(odometer.getLeftRadius(), odometer.getWidth(), angle), false);
+	}
+	
 	
 	/*
 	 * Go foward a set distance in cm
@@ -122,12 +129,7 @@ public class Navigation {
 		
 		leftMotor.rotate(convertDistance(odometer.getLeftRadius(), distance), true);
 		rightMotor.rotate(convertDistance(odometer.getLeftRadius(), distance), false);
-		while(true){
-			//if(!leftMotor.isMoving()&& !rightMotor.isMoving()){
-				//break;
-			//}
-			
-		}
+	
 
 	}
 	private static int convertDistance(double radius, double distance) {

@@ -34,7 +34,7 @@ public class LightLocalizer {
 		EV3LargeRegulatedMotor[] motors = this.odo.getMotors();
 		this.leftMotor = motors[0];
 		this.rightMotor = motors[1];
-		double pointA;
+		double pointA = 0;
 		double pointB;
 		odo.setPosition(new double [] {0.0, 0.0, 0.0}, new boolean [] {true, true, true});
 		leftMotor.setSpeed(100);
@@ -50,29 +50,34 @@ public class LightLocalizer {
 			colorSensor.fetchSample(colorData, 0);
 			if(colorData[0]<0.3){
 				Sound.beep();
-				System.out.println("beeep");
-				//leftMotor.stop();
-			//	rightMotor.stop();
-				pointA = odo.getY();
-				System.out.println(""                  +""+pointA);
-				navi.turnTo(90,true);
-				try {
-					Thread.sleep(2000);
-				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-				navi.goForward(pointA);
-			//	navi.turnTo(-88,true);
-				
-				
-				
-				
+				navi.goForward(lightSensorDist);
+			//	System.out.println("beeep");
+				leftMotor.stop();
+				rightMotor.stop();
+				pointA = odo.getX();
+	
+				break;
+
 			}
 			
 		
 		}
 		
+		navi.turnImm(-77);
+		try {
+			Thread.sleep(2000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		navi.goForward(pointA+lightSensorDist);
+		leftMotor.setSpeed(100);
+
+		rightMotor.setSpeed(100);
+		
+		//System.out.println("REACHED");
+		navi.turnImm(77);
+		odo.setPosition(new double [] {0.0, 0.0, 0.0}, new boolean [] {true, true, true});
 	
 	}
 		
