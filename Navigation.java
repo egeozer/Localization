@@ -117,7 +117,24 @@ public class Navigation {
 	 * Go foward a set distance in cm
 	 */
 	public void goForward(double distance) {
-		this.travelTo(Math.cos(Math.toRadians(this.odometer.getAng())) * distance, Math.cos(Math.toRadians(this.odometer.getAng())) * distance);
+		
+		
+		
+		leftMotor.rotate(convertDistance(odometer.getLeftRadius(), distance), true);
+		rightMotor.rotate(convertDistance(odometer.getLeftRadius(), distance), false);
+		while(true){
+			//if(!leftMotor.isMoving()&& !rightMotor.isMoving()){
+				//break;
+			//}
+			
+		}
 
+	}
+	private static int convertDistance(double radius, double distance) {
+		return (int) ((180.0 * distance) / (Math.PI * radius));
+	}
+
+	private static int convertAngle(double radius, double width, double angle) {
+		return convertDistance(radius, Math.PI * width * angle / 360.0);
 	}
 }

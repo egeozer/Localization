@@ -36,7 +36,7 @@ public class LightLocalizer {
 		this.rightMotor = motors[1];
 		double pointA;
 		double pointB;
-		
+		odo.setPosition(new double [] {0.0, 0.0, 0.0}, new boolean [] {true, true, true});
 		leftMotor.setSpeed(100);
 
 		rightMotor.setSpeed(100);
@@ -51,10 +51,19 @@ public class LightLocalizer {
 			if(colorData[0]<0.3){
 				Sound.beep();
 				System.out.println("beeep");
-				leftMotor.stop();
-				rightMotor.stop();
+				//leftMotor.stop();
+			//	rightMotor.stop();
 				pointA = odo.getY();
+				System.out.println(""                  +""+pointA);
 				navi.turnTo(90,true);
+				try {
+					Thread.sleep(2000);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				navi.goForward(pointA);
+			//	navi.turnTo(-88,true);
 				
 				
 				

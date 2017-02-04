@@ -147,7 +147,7 @@ public class USLocalizer {
 			heading = deltaAngle + angleA;
 			
 			// update the odometer position (example to follow:)
-			odo.setPosition(new double [] {0.0, 0.0, heading}, new boolean [] {true, true, true});
+			odo.setPosition(new double [] {0.0, 0.0, heading-13}, new boolean [] {true, true, true});
 			navi.turnTo(0, true);
 		}
 	}
