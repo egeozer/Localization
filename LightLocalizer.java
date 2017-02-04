@@ -40,8 +40,12 @@ public class LightLocalizer {
 			leftMotor.forward();
 			rightMotor.forward();
 		}
+<<<<<<< HEAD
 		
 		navi.goForward(2);
+=======
+		navi.goForward(2.0);
+>>>>>>> origin/master
 		leftMotor.stop();
 		rightMotor.stop();
 		
@@ -49,7 +53,7 @@ public class LightLocalizer {
 		leftMotor.forward();
 		rightMotor.backward();
 		
-		double angles[] = {0,0,0,0};		//angles{ +x, -y, -x, +y}
+		double angles[] = {0,0,0,0};		//angles{ x+, y-, x-, y+}
 				
 		while(axisCounter < 5){
 			if(colorData[0] > 0.3){
@@ -62,20 +66,31 @@ public class LightLocalizer {
 		rightMotor.stop();
 				
 		// do trig to compute (0,0) and 0 degrees
-		xTheta = angles[3] - angles[1];
-		yTheta = angles[4] - angles[2];
+		xTheta = angles[2] - angles[0];
+		yTheta = angles[3] - angles[1];
 		
 		x = -lightSensorDist * Math.cos(yTheta/2);
 		y = -lightSensorDist * Math.cos(xTheta/2);
+		heading = heading + (90 - angles[1] + 180 + yTheta/2);
 		
 		// when done travel to (0,0) and turn to 0 degrees
+		odo.setPosition(new double [] {x, y, heading}, new boolean [] {true, true, true});
+		navi.travelTo(0,0);
+		navi.turnTo(0, true);		
 		
+<<<<<<< HEAD
 		eucDistance = Math.sqrt( (Math.pow(x, 2) + Math.pow(y,2)) );
 		heading = yTheta/2;  //see slide 27
 		
 		
 		navi.goForward(eucDistance);
 		
+=======
+		//heading = yTheta/2;  //see slide 27
+		//eucDistance = Math.sqrt( (Math.pow(x, 2) + Math.pow(y,2)) );
+				
+		//navi.goForward(eucDistance);
+>>>>>>> origin/master
 	}
 
 }
