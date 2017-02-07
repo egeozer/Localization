@@ -16,6 +16,7 @@ public class USLocalizer {
 	private double critDist = 45.0;				// measured distance from the wall
 	private double noiseDistFE = 0.0;			// experimentally determined noise margin (falling edge)
 	private double noiseDistRE = 2.0;			// experimentally determined noise margin (rising edge)
+	private double prevDist  = 0;
 	
 	public USLocalizer(Odometer odo, Navigation navi, SampleProvider usSensor, float[] usData, LocalizationType locType) {
 		this.odo = odo;
@@ -153,8 +154,27 @@ public class USLocalizer {
 	}
 	
 	private float getFilteredData() {
+		
 		usSensor.fetchSample(usData, 0);
 		float distance =100* usData[0];
+		int filterControl = 0;
+		
+		if (distance >= 255 && filterControl < 25) {
+			// bad value, do not set the distance var, however do increment the
+			// filter value
+			filterControl++;
+		} 
+		else if (distance >= 255) {
+			// We have repeated large values, so there must actually be nothing
+			// there: leave the distance alone
+			prevDist = distance;
+		} 	
+		else {
+			// distance went below 255: reset filter and leave
+			// distance alone.
+			filterControl = 0;
+			prevDist = distance;
+		}
 						
 		return distance;
 	}

@@ -127,11 +127,21 @@ public class Navigation {
 		
 		
 		
+		
 		leftMotor.rotate(convertDistance(odometer.getLeftRadius(), distance), true);
 		rightMotor.rotate(convertDistance(odometer.getLeftRadius(), distance), false);
 	
 
 	}
+	public void goBackward(double distance) {
+		
+		
+		leftMotor.rotate(-convertDistance(odometer.getLeftRadius(), distance), true);
+		rightMotor.rotate(-convertDistance(odometer.getLeftRadius(), distance), false);
+	
+
+	}
+	
 	private static int convertDistance(double radius, double distance) {
 		return (int) ((180.0 * distance) / (Math.PI * radius));
 	}
